@@ -1,1 +1,1 @@
-from .database import get_esg, add_esg, initialize
+from .database import add_esg, get_esg
