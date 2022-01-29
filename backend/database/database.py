@@ -2,7 +2,7 @@ import sqlite3
 from pathlib import Path
 from backend.token import Token
 
-from esg_score import ESGScore
+from ..esg_score import ESGScore
 
 database_path = str(Path(__file__).parent / "data.db")
 
