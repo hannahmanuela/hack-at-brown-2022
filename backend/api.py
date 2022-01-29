@@ -5,7 +5,7 @@ from .database import initialize
 
 initialize()
 
-from backend.company import search_to_ticker
+from backend.search import search_to_ticker
 
 app = FastAPI()
 app.add_middleware(
