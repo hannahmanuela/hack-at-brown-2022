@@ -8,3 +8,4 @@ app = FastAPI()
 @app.get("/esg/{search}")
 def aggregate_scores(search: str):
     ticker, name, score = search_to_ticker(search)
+    return (ticker, name, score) # temporary just to test the deployment
