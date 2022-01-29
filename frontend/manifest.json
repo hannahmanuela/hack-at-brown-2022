@@ -6,6 +6,10 @@
     "browser_action": {
       "default_popup": "html/popup.html",
       "default_title": "Sustainability stats for the companies you're searching."
-    }
-    
-  }
+    },
+
+    "content_scripts": [{
+        "matches": ["*://www.google.com/*"],
+        "js": ["scripts/content_search.js"]
+    }]
+}
