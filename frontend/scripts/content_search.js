@@ -1,28 +1,32 @@
 
-if (window.location.hostname == "www.google.com"){
-    const urlParams = new URLSearchParams(window.location.search);
-    const query = urlParams.get('q');
-    console.log(domain);
-    
-    // send query to backend
-    fetch('https://esgify.herokuapp.com/esg/' + query)
-        .then( response => response.json() )
-        .then( response => {
-            // todo this??
-            console.log("log2");
-            document.getElementById('ticker').innerHTML = response.ticker;
-            document.getElementById('envRisk').innerHTML = response.esg.environment;
-            document.getElementById('socRisk').innerHTML = response.esg.social;
-            document.getElementById('govRisk').innerHTML = response.esg.governance;
-            document.getElementById('cont').innerHTML = response.esg.controversy;
+const urlParams = new URLSearchParams(window.location.search);
+const query = urlParams.get('q');
 
-            const tok_name = response.name.split(" ");
-            search_url = "https://www.google.com/search?q=";
-            for (let i = 0; i < length(tok_name); i++) {
-                search_url.concat(tok_name[i] + "+")
-            }
-            search_url = search_url + "sustainability";
-            console.log(search_url);
-            document.getElementById('newSearch').setAttribute('href', search_url);
-    } )
-}
+chrome.storage.local.set({ticker: "N/A"})
+chrome.storage.local.set({envRisk: 0})
+chrome.storage.local.set({socRisk: 0})
+chrome.storage.local.set({govRisk: 0})
+chrome.storage.local.set({cont: 0}) 
+chrome.storage.local.set({totRisk: 0}) 
+
+// send query to backend
+fetch('https://esgify.herokuapp.com/esg/' + query)
+    .then( response => response.json() )
+    .then( response => {
+        chrome.storage.local.set({ticker: response.ticker})
+        chrome.storage.local.set({envRisk: response.esg.environment})
+        chrome.storage.local.set({socRisk: response.esg.social})
+        chrome.storage.local.set({govRisk: response.esg.governance})
+        chrome.storage.local.set({cont: response.esg.controversy}) 
+        total_esg = response.esg.social + response.esg.environment + response.esg.governance
+        chrome.storage.local.set({totRisk: total_esg}) 
+
+        const tok_name = response.name.split(" ");
+        search_url = "https://www.google.com/search?q=";
+        for (let i = 0; i < tok_name.length; i++) {
+            search_url.concat(tok_name[i] + "+")
+        }
+        search_url = search_url + "sustainability";
+        console.log(search_url);
+        chrome.storage.local.set({search_url: search_url})
+} )
