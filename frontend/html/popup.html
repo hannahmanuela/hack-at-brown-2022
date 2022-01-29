@@ -1,9 +1,53 @@
 <html>
+<head>
+<style>
+table {
+  border-collapse: collapse;
+  width: 100%;
+}
+
+td {
+  border: 1px solid #dddddd;
+  text-align: left;
+  padding: 8px;
+}
+
+tr:nth-child(even) {
+  background-color: #dddddd;
+}
+</style>
+</head>
+
 <body>
 
 <h1>Sustainable Searching</h1>
 
 <p> Hannah is cool! </p>
+
+<h2 id='ticker'> {ticker} ESG Score</h2>
+
+<table>
+  <tr>
+    <td>Total</th>
+    <td id="totRisk">{score}</th>
+  </tr>
+  <tr>
+    <td>Environmental</td>
+    <td id="envRisk">{score}</td>
+  </tr>
+  <tr>
+    <td>Social</td>
+    <td id="socRisk">{score}</td>
+  </tr>
+  <tr>
+    <td>Governance</td>
+    <td id="govRisk">{score}</td>
+  </tr>
+  <tr>
+    <td>Controversy</td>
+    <td id="cont">{score}</td>
+  </tr>
+</table>
 
 <script src='../scripts/content_search.js'></script>
 
