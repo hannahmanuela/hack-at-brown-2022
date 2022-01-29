@@ -1,10 +1,6 @@
 from fastapi import FastAPI, Response, status
 from fastapi.middleware.cors import CORSMiddleware
 
-from .database import initialize
-
-initialize()
-
 from backend.search import search_to_ticker
 
 app = FastAPI()

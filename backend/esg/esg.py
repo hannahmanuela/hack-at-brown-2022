@@ -7,7 +7,6 @@ from ..esg_score import ESGScore
 def get_esg_api(ticker: str) -> ESGScore:
     ticker = yf.Ticker(ticker)
     df = ticker.get_sustainability()
-    print(ticker, df)
     if df is None:
         return None
     return ESGScore(
