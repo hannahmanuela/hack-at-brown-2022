@@ -1,0 +1,4 @@
+fastapi==0.73.0
+uvicorn==0.17.1
+requests==2.25.1
+yfinance==0.1.69
