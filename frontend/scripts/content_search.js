@@ -4,7 +4,7 @@ if (window.location.hostname == "www.google.com"){
     const query = urlParams.get('q');
     alert("query: " + query);
 
-
+    
     // send query to backend
     fetch('{.env.backend_url}/{query}')
         .then( response => response.json() )
