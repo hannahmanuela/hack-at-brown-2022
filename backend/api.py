@@ -1,6 +1,6 @@
 from fastapi import FastAPI, Response, status
 
-from backend.token import search_to_ticker
+from backend.search import search_to_ticker
 
 app = FastAPI()
 

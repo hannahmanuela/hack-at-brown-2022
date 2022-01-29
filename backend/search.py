@@ -1,8 +1,13 @@
 from dataclasses import dataclass, asdict
+import re
 import requests
-import polars as pl
+import pandas as pd
 
 from .esg import get_esg
+
+corpus = pd.read_csv("tickers.csv")
+names = corpus.Name.tolist()
+ticks = corpus.Symbol.tolist()
 
 @dataclass
 class Token:
@@ -28,7 +33,7 @@ def search_to_ticker(search: str):
         return None
 
     best_ticker = max(tickers, key=lambda ticker: ticker.score)
-    esg = get_esg(best_ticker["ticker"])
+    esg = get_esg(best_ticker.ticker)
     if esg is None:
         return None
     return {
@@ -38,18 +43,27 @@ def search_to_ticker(search: str):
     }
 
 
+def scoring(match: str, token: str) -> float:
+    if match.startswith(token):
+        return 3
+    elif match.endswith(token):
+        return 2
+    elif re.fullmatch(token, match) is not None:
+        return 1
+    else:
+        return 0
+
 def token_to_ticker(token: str) -> Token:
-    query = f"https://ticker-2e1ica8b9.now.sh/keyword/{requests.utils.quote(token)}"
-    r = requests.get(query)
-    if not r.ok:
-        raise RuntimeError("Failed to query " + query)
-    res = r.json()
-    if len(res) == 0:
+    idxs = list(filter(lambda i: token.lower() in names[i].lower(), range(len(names))))
+    scores = list(map(lambda x: scoring(names[x], token), idxs))
+    idxs = [x for _, x in sorted(zip(scores, idxs), key=lambda pair: pair[0], reverse=True)]
+    res = zip(map(lambda i: names[i], idxs), map(lambda i: ticks[i], idxs))
+    if len(idxs) == 0:
         return None
-    return_entry = res[0]
+    return_entry = next(res)
     return Token(
         token,
-        return_entry["name"],
-        return_entry["symbol"],
-        len(token.split(" ")) / len(res)
+        return_entry[1],
+        return_entry[0],
+        len(token.split(" ")) / len(idxs)
     )

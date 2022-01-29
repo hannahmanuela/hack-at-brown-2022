@@ -1,6 +1,5 @@
 import sqlite3
 from pathlib import Path
-from backend.token import Token
 
 from ..esg_score import ESGScore
 
