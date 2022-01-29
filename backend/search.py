@@ -1,6 +1,5 @@
 from dataclasses import dataclass, asdict
 import re
-import requests
 import pandas as pd
 
 from .esg import get_esg
