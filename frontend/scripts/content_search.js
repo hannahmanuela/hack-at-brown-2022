@@ -10,6 +10,10 @@ if (window.location.hostname == "www.google.com"){
         .then( response => response.json() )
         .then( response => {
             // todo this??
-            document.data = response
+            document.getElementById('ticker').innerHTML = response.ticker;
+            document.getElementById('envRisk').innerHTML = response.esg.environment;
+            document.getElementById('socRisk').innerHTML = response.esg.social;
+            document.getElementById('govRisk').innerHTML = response.esg.governance;
+            document.getElementById('cont').innerHTML = response.esg.controversy;
     } )
 }
